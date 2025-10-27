@@ -1,27 +1,32 @@
-app = "redis-example"
+# fly.toml app configuration file generated for clickout-redis on 2025-10-27T18:46:20+05:45
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-[mounts]
-  destination = "/data"
-  source = "redis_server"
-
-[metrics]
-  port = 9091
-  path = "/metrics"
-
-# Use the Docker image instead of building from source
+app = 'clickout-redis'
+primary_region = 'lhr'
 
 [build]
-  image = "flyio/redis:6.2.6"
+  image = 'flyio/redis:6.2.6'
 
-# Uncomment these lines for public internet access to Redis on port 10000
-#
-# [[services]]
-# internal_port = 6379
-# protocol      = "tcp"
+[[mounts]]
+  source = 'redis_server'
+  destination = '/data'
 
-#   [[services.ports]]
-#   port     = "10000"
+[[vm]]
+  size = 'shared-cpu-1x'
 
-#   [[services.tcp_checks]]
-#   interval = 10000
-#   timeout  = 2000
+[[metrics]]
+  port = 9091
+  path = '/metrics'
+
+[[services]]
+  internal_port = 6379
+  protocol      = "tcp"
+
+[[services.ports]]
+    port  = "10000"
+
+[[services.tcp_checks]]
+    interval = 10000
+    timeout  = 2000
